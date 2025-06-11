@@ -59,7 +59,7 @@ products.forEach((product) => {
 
    document.querySelector('.products-grid')
    .innerHTML = productListHtml;
-
+   
     updateCartQuantity();
 
    //Add product to a cart
@@ -68,7 +68,6 @@ products.forEach((product) => {
       let productId = button.dataset.productId;
       addToCart(productId);
       updateCartQuantity();
-      
     })
    })
    

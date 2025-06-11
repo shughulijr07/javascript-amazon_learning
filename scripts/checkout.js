@@ -1,8 +1,8 @@
  import { products } from "../data/products.js";
- import { cart,removeFromCart } from "../data/cart.js";
+ import { cart,removeFromCart, updateCartQuantity, saveToStorage, updateCart } from "../data/cart.js";
 
   let cartListHtml = '';
-  
+
     cart.forEach((cartItem) =>{
        let productId = cartItem.productId;
   
@@ -33,9 +33,15 @@
                     <span>
                       Quantity: <span class="quantity-label">${cartItem.quantity}</span>
                     </span>
+
+
                     <span class="update-quantity-link link-primary">
                       Update
                     </span>
+                    <input type="text" class="new-quantity new-quantity-${productId}">
+                    <span class="save-quantity link-primary" data-product-id="${productId}">Save</span>
+
+
                     <span class="delete-quantity-link link-primary" data-product-id="${matchingItem.id}">
                       Delete
                     </span>
@@ -92,17 +98,38 @@
        cartListHtml += html;
     });
 
+
+  updateCartQuantity();  
+
   document.querySelector('.order-summary').innerHTML = cartListHtml; 
 
    document.querySelectorAll('.delete-quantity-link').forEach((deleteLink)=>{
-    deleteLink.addEventListener('click',()=>{
-      //To know what a link is clicked, we have to get its id! We can get it using data attachment
-      let productId = deleteLink.dataset.productId;
-      removeFromCart(productId);
-      
-      //Then remove the cartItem from the page
-      let container = document.querySelector(`.cart-item-container-${productId}`);
-      container.remove();
+        deleteLink.addEventListener('click',()=>{
+          //To know what a link is clicked, we have to get its id! We can get it using data attachment
+          let productId = deleteLink.dataset.productId;
+          removeFromCart(productId);
+          
+          //Then remove the cartItem from the page
+          let container = document.querySelector(`.cart-item-container-${productId}`);
+          container.remove();
+          updateCartQuantity();
+        });
     });
 
-   })
+   document.querySelectorAll('.update-quantity-link').forEach((updateLink) => {
+     updateLink.addEventListener('click', ()=>{
+        console.log('input is opened');
+     })
+   });
+
+   document.querySelectorAll('.save-quantity').forEach((saveLink) => {
+    saveLink.addEventListener('click', ()=>{
+     let productId = saveLink.dataset.productId;
+     let quantityElement = document.querySelector(`.new-quantity-${productId}`);
+     let quantityValue = quantityElement.value;
+
+      updateCart(productId, quantityValue);
+      updateCartQuantity();
+      quantityElement.value = '';
+    })
+  });
