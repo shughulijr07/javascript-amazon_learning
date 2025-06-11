@@ -102,4 +102,4 @@
      cartListHtml += html;
   });
 
-  document.querySelector('.order-summary').innerHTML = cartListHtml;
+  document.querySelector('.order-summary').innerHTML = cartListHtml; 
