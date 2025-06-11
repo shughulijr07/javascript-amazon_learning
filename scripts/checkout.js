@@ -1,5 +1,5 @@
  import { products } from "../data/products.js";
- import { cart,removeFromCart, updateCartQuantity, saveToStorage, updateCart } from "../data/cart.js";
+ import { cart,removeFromCart, updateCartQuantity, updateCart } from "../data/cart.js";
 
   let cartListHtml = '';
 
@@ -31,7 +31,7 @@
                   </div>
                   <div class="product-quantity">
                     <span>
-                      Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+                      Quantity: <span class="quantity-label-${productId}">${cartItem.quantity}</span>
                     </span>
 
 
@@ -130,6 +130,9 @@
 
       updateCart(productId, quantityValue);
       updateCartQuantity();
+      //make new quantity appear instantly after click save
+      document.querySelector(`.quantity-label-${productId}`).innerHTML = quantityValue;
+
       quantityElement.value = '';
     })
   });
