@@ -1,5 +1,21 @@
 export let cart = JSON.parse(localStorage.getItem('cart'))
 
+  // if(!cart){
+  //   cart = [
+  //     {
+  //       productId:'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+  //       quantity:1
+  //     },
+  //     {
+  //       productId:'83d4ca15-0f35-48f5-b7a3-1ea210004f2e',
+  //       quantity:3
+  //     },
+  //     {
+  //       productId:'3ebe75dc-64d2-4137-8860-1f5a963e534b',
+  //       quantity:2
+  //     },
+  //   ]
+  // }
 
     export function saveToStorage(){
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -24,6 +40,7 @@ export let cart = JSON.parse(localStorage.getItem('cart'))
             cart.push({
               productId: productId,
               quantity: selectedQuantity,
+              deliveryOptionId: 1,
             });
           }
 
@@ -76,3 +93,41 @@ export let cart = JSON.parse(localStorage.getItem('cart'))
       }
       saveToStorage();
     }
+
+    export function updateProductQuantity(){
+      document.querySelectorAll(`.update-quantity-link`).forEach((updateLink) => {
+        updateLink.addEventListener('click', ()=>{
+          let productId = updateLink.dataset.productId;
+
+          //Show quantity input and save linkm
+          document.querySelector(`.new-quantity-${productId}`).classList.add('is-shown');
+          document.querySelector(`.save-quantity-${productId}`).classList.add('is-shown');
+          //Hide update link and quantity label
+          document.querySelector(`.quantity-label-${productId}`).classList.add('hidden');
+          document.querySelector(`.update-quantity-link-${productId}`).classList.add('hidden');
+
+        })
+      });
+
+      document.querySelectorAll('.save-quantity').forEach((saveLink) => {
+      saveLink.addEventListener('click', ()=>{
+        let productId = saveLink.dataset.productId;
+        let quantityElement = document.querySelector(`.new-quantity-${productId}`);
+        let quantityValue = quantityElement.value;
+
+        updateCart(productId, quantityValue);
+        updateCartQuantity();
+        //make new quantity appear instantly after click save
+        document.querySelector(`.quantity-label-${productId}`).innerHTML = quantityValue;
+        quantityElement.value = '';
+
+          //Hide quantity input and save linkm
+          document.querySelector(`.new-quantity-${productId}`).classList.remove('is-shown');
+          document.querySelector(`.save-quantity-${productId}`).classList.remove('is-shown');
+
+          //Show update link and quantity label
+          document.querySelector(`.quantity-label-${productId}`).classList.remove('hidden');
+          document.querySelector(`.update-quantity-link-${productId}`).classList.remove('hidden');
+      })
+    });
+} 
