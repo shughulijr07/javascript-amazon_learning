@@ -31,15 +31,15 @@
                   </div>
                   <div class="product-quantity">
                     <span>
-                      Quantity: <span class="quantity-label-${productId}">${cartItem.quantity}</span>
+                      Quantity: <span class="quantity-label quantity-label-${productId}">${cartItem.quantity}</span>
                     </span>
 
 
-                    <span class="update-quantity-link link-primary">
+                    <span class="update-quantity-link update-quantity-link-${productId} link-primary" data-product-id="${productId}">
                       Update
                     </span>
-                    <input type="text" class="new-quantity new-quantity-${productId}">
-                    <span class="save-quantity link-primary" data-product-id="${productId}">Save</span>
+                    <input type="text" class="new-quantity new-quantity-${productId} hidden">
+                    <span class="save-quantity save-quantity-${productId} link-primary hidden" data-product-id="${productId}">Save</span>
 
 
                     <span class="delete-quantity-link link-primary" data-product-id="${matchingItem.id}">
@@ -98,7 +98,6 @@
        cartListHtml += html;
     });
 
-
   updateCartQuantity();  
 
   document.querySelector('.order-summary').innerHTML = cartListHtml; 
@@ -115,10 +114,18 @@
           updateCartQuantity();
         });
     });
-
-   document.querySelectorAll('.update-quantity-link').forEach((updateLink) => {
+    
+   document.querySelectorAll(`.update-quantity-link`).forEach((updateLink) => {
      updateLink.addEventListener('click', ()=>{
-        console.log('input is opened');
+        let productId = updateLink.dataset.productId;
+
+        //Show quantity input and save link
+        document.querySelector(`.new-quantity-${productId}`).classList.add('is-shown');
+        document.querySelector(`.save-quantity-${productId}`).classList.add('is-shown');
+        //Hide update link and quantity label
+        document.querySelector(`.quantity-label-${productId}`).classList.add('hidden');
+        document.querySelector(`.update-quantity-link-${productId}`).classList.add('hidden');
+
      })
    });
 
@@ -132,7 +139,13 @@
       updateCartQuantity();
       //make new quantity appear instantly after click save
       document.querySelector(`.quantity-label-${productId}`).innerHTML = quantityValue;
-
       quantityElement.value = '';
+
+        document.querySelector(`.new-quantity-${productId}`).classList.remove('is-shown');
+        document.querySelector(`.save-quantity-${productId}`).classList.remove('is-shown');
+        document.querySelector(`.quantity-label-${productId}`).classList.remove('hidden');
+        document.querySelector(`.update-quantity-link-${productId}`).classList.remove('hidden');
+
+    
     })
   });

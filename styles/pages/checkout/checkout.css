@@ -213,3 +213,12 @@
 .new-quantity{
   width: 30px;
 }
+
+.hidden{
+  display: none;
+}
+
+.is-shown{
+  display: initial;
+}
+
