@@ -120,6 +120,7 @@
 .product-price {
   font-weight: 700;
   margin-bottom: 10px;
+  /* margin-left: 20px; */
 }
 
 .product-quantity-container {
@@ -157,4 +158,8 @@
 
 .added-to-cart-visible{
   opacity: 1;
+}
+
+.money-hint{
+  font-weight: lighter;
 }
