@@ -1,15 +1,16 @@
 import { cart, updateCartQuantity, updateItemsQuantity } from "../../data/cart.js";
+import { products } from "../../data/products.js";
+import { formatNumber } from "../../data/utils.js";
 
-  export function renderPaymentSummary(){
-    
+  export function renderPaymentSummary(){    
     let html = `
-        <div class="payment-summary-title">
+      <div class="payment-summary-title">
         Order Summary
       </div>
 
       <div class="payment-summary-row">
         <div>Items (<span class="items-quantity"></span>):</div>
-        <div class="payment-summary-money">$42.75</div>
+        <div class="payment-summary-money total-product-cost">$42.75</div>
       </div>
 
       <div class="payment-summary-row">
@@ -38,9 +39,20 @@ import { cart, updateCartQuantity, updateItemsQuantity } from "../../data/cart.j
     `;
     
     document.querySelector('.payment-summary').innerHTML = html;
+    updateItemsQuantity(); 
+
+    let totalProductCost = 0;
+
+    cart.forEach((cartItem) =>{
+      let matchingItem;
+      products.forEach(product =>{
+        if(cartItem.productId === product.id){
+           totalProductCost += product.priceCents * cartItem.quantity;
+        }
+      });
+    });
     
-    updateItemsQuantity();
-    // let itemQuantity = updateItemsQuantity();
-    // document.querySelector('.items-quantity').innerHTML = itemQuantity;
+    document.querySelector('.total-product-cost').innerHTML = formatNumber(totalProductCost);
+
   }
-  renderPaymentSummary();
+

@@ -2,6 +2,7 @@ import { products } from "../../data/products.js";
 import { cart,removeFromCart, updateCartQuantity,updateProductQuantity } from "../../data/cart.js";
 import dayjs from "http://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { formatNumber } from "../../data/utils.js";
 
     export function renderOrderSummary(){
     let cartListHtml = '';
@@ -30,7 +31,7 @@ import { renderPaymentSummary } from "./paymentSummary.js";
                     ${matchingItem.name}
                   </div>
                   <div class="product-price">
-                    ${matchingItem.priceCents}
+                    ${formatNumber(matchingItem.priceCents)}
                   </div>
                   <div class="product-quantity">
                     <span>
