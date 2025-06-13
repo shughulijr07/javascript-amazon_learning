@@ -1,7 +1,7 @@
 import { cart, updateCartQuantity, updateItemsQuantity } from "../../data/cart.js";
 import { products } from "../../data/products.js";
 import { formatNumber } from "../../data/utils.js";
-
+ 
   export function renderPaymentSummary(){    
     let html = `
       <div class="payment-summary-title">
@@ -33,7 +33,7 @@ import { formatNumber } from "../../data/utils.js";
         <div class="payment-summary-money order-total"></div>
       </div>
 
-      <button class="place-order-button button-primary">
+      <button class="place-order-button button-primary check">
         Place your order
       </button>
     `;
@@ -63,7 +63,8 @@ import { formatNumber } from "../../data/utils.js";
     document.querySelector('.estimated-tax').innerHTML = formatNumber(estimatedTax);
     document.querySelector('.order-total').innerHTML = formatNumber(orderTotal);
 
-
-
+    document.querySelector('.place-order-button').addEventListener('click',()=>{
+      window.location.href = "/orders.html";
+    })
   }
 

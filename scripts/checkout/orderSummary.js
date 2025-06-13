@@ -5,6 +5,14 @@ import { renderPaymentSummary } from "./paymentSummary.js";
 import { formatNumber } from "../../data/utils.js";
 
     export function renderOrderSummary(){
+      // If no product to cart, hide payment summary and review text
+      if(cart.length === 0){
+        document.querySelector('.payment-summary').classList.add('hidden');
+        document.querySelector('.has-order').classList.add('hidden');
+        document.querySelector('.no-order').classList.add('is-shown');
+      }else{
+        document.querySelector('.payment-summary').classList.remove('hidden');
+      }
     let cartListHtml = '';
 
     cart.forEach((cartItem) =>{
@@ -111,12 +119,13 @@ import { formatNumber } from "../../data/utils.js";
           //To know what a link is clicked, we have to get its id! We can get it using data attachment
           let productId = deleteLink.dataset.productId;
           removeFromCart(productId);
-          
+  
           //Then remove the cartItem from the page
           let container = document.querySelector(`.cart-item-container-${productId}`);
           container.remove();
           updateCartQuantity();
           renderPaymentSummary();
+          renderOrderSummary();
  
         });
     });
