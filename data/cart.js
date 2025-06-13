@@ -94,40 +94,53 @@ export let cart = JSON.parse(localStorage.getItem('cart'))
       saveToStorage();
     }
 
-    export function updateProductQuantity(){
+    export function updateProductQuantity(renderPaymentSummary){
       document.querySelectorAll(`.update-quantity-link`).forEach((updateLink) => {
-        updateLink.addEventListener('click', ()=>{
-          let productId = updateLink.dataset.productId;
+          updateLink.addEventListener('click', ()=>{
+            let productId = updateLink.dataset.productId;
 
-          //Show quantity input and save linkm
-          document.querySelector(`.new-quantity-${productId}`).classList.add('is-shown');
-          document.querySelector(`.save-quantity-${productId}`).classList.add('is-shown');
-          //Hide update link and quantity label
-          document.querySelector(`.quantity-label-${productId}`).classList.add('hidden');
-          document.querySelector(`.update-quantity-link-${productId}`).classList.add('hidden');
+            //Show quantity input and save link
+            document.querySelector(`.new-quantity-${productId}`).classList.add('is-shown');
+            document.querySelector(`.save-quantity-${productId}`).classList.add('is-shown');
+            //Hide update link and quantity label
+            document.querySelector(`.quantity-label-${productId}`).classList.add('hidden');
+            document.querySelector(`.update-quantity-link-${productId}`).classList.add('hidden');
 
-        })
-      });
+          })
+        });
 
       document.querySelectorAll('.save-quantity').forEach((saveLink) => {
-      saveLink.addEventListener('click', ()=>{
-        let productId = saveLink.dataset.productId;
-        let quantityElement = document.querySelector(`.new-quantity-${productId}`);
-        let quantityValue = quantityElement.value;
+        saveLink.addEventListener('click', ()=>{
+          let productId = saveLink.dataset.productId;
+          let quantityElement = document.querySelector(`.new-quantity-${productId}`);
+          let quantityValue = quantityElement.value;
 
-        updateCart(productId, quantityValue);
-        updateCartQuantity();
-        //make new quantity appear instantly after click save
-        document.querySelector(`.quantity-label-${productId}`).innerHTML = quantityValue;
-        quantityElement.value = '';
+          updateCart(productId, quantityValue);
+          updateCartQuantity();
+          //make new quantity appear instantly after click save
+          document.querySelector(`.quantity-label-${productId}`).innerHTML = quantityValue;
+          quantityElement.value = '';
 
-          //Hide quantity input and save linkm
-          document.querySelector(`.new-quantity-${productId}`).classList.remove('is-shown');
-          document.querySelector(`.save-quantity-${productId}`).classList.remove('is-shown');
+            //Hide quantity input and save link
+            document.querySelector(`.new-quantity-${productId}`).classList.remove('is-shown');
+            document.querySelector(`.save-quantity-${productId}`).classList.remove('is-shown');
 
-          //Show update link and quantity label
-          document.querySelector(`.quantity-label-${productId}`).classList.remove('hidden');
-          document.querySelector(`.update-quantity-link-${productId}`).classList.remove('hidden');
-      })
-    });
-} 
+            //Show update link and quantity label
+            document.querySelector(`.quantity-label-${productId}`).classList.remove('hidden');
+            document.querySelector(`.update-quantity-link-${productId}`).classList.remove('hidden');
+            renderPaymentSummary();
+        })
+      });
+    }
+    
+
+export function updateItemsQuantity(){
+  //Update number of quantity in the cart
+  let cartQuantity = 0;
+  cart.forEach((cartItem)=>{
+    cartQuantity += cartItem.quantity;;
+  });
+  document.querySelector('.items-quantity').innerHTML = cartQuantity;
+
+  return cartQuantity;
+}
