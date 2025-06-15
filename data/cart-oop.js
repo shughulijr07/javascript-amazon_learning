@@ -24,8 +24,8 @@
   },
 
   addToCart(productId){
-    let quantitySelected = document.querySelector(`.quantity-selector-${productId}`).value;
-    let selectedQuantity = Number(quantitySelected);
+    // let quantitySelected = document.querySelector(`.quantity-selector-${productId}`).value;
+    let selectedQuantity = 1;
 
     let matchingItem;
     this.cartItem.forEach((item)=>{
@@ -43,17 +43,6 @@
         deliveryOptionId: 1,
       });
     }
-
-    //Display added message 
-    let addedVisible = document.querySelector(`.added-to-cart-${productId}`);
-    addedVisible.classList.add('added-to-cart-visible');
-
-    //Remove the message displayed after 2 sec
-    setTimeout(() => {
-      let removeVisibility = document.querySelector(`.added-to-cart-${productId}`);
-      removeVisibility.classList.remove('added-to-cart-visible');
-    }, 2000);
-    this.saveToStorage();
   },
 
   removeFromCart(productId){
@@ -139,6 +128,7 @@
 
 myCart.loadFromStorage();
 
+myCart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e');
  
 console.log(myCart.cartItem);
 
